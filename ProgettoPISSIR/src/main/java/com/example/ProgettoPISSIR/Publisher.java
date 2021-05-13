@@ -33,9 +33,9 @@ public class Publisher {
 
 
 
-    void publishMessage(String msg) throws org.eclipse.paho.client.mqttv3.MqttException {
-        final org.eclipse.paho.client.mqttv3.MqttTopic messageTopic = client.getTopic("SmartLocker1/"+client.getClientId().toString());
-        messageTopic.publish(new org.eclipse.paho.client.mqttv3.MqttMessage(msg.getBytes()));
+    void publishMessage(String msg) throws MqttException {
+        final MqttTopic messageTopic = client.getTopic("SmartLocker1/"+client.getClientId().toString());
+        messageTopic.publish(new MqttMessage(msg.getBytes()));
     }
 
 
