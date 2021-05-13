@@ -11,6 +11,8 @@ import java.util.Map;
 @RestController
 public class Controller {
 
+    static Publisher pub = new Publisher();
+
 //    @GetMapping("/")
 //    public String helloWorld() {
 //        return "Home Page";
@@ -35,5 +37,11 @@ public class Controller {
     public String prenotazioneArmadietto() {
         return "Pagina per effettuare una prenotazione";
     }
+
+    @GetMapping("/msgToSmartlocker1")
+    public void msgToSmartlocker1() throws org.eclipse.paho.client.mqttv3.MqttException {
+        pub.publishMessage("Prova messaggio");
+    }
+
 
 }
