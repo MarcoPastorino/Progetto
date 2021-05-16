@@ -3,6 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+        function prova(){
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", 'http://localhost:8080/user', false );
+            xmlHttp.send( null );
+            console.log(xmlHttp);
+            document.getElementById('loginh3').innerHTML = "Utente: " + xmlHttp.responseText;
+            }
+
+    </script>
+
 </head>
 <body>
 
@@ -10,10 +25,11 @@
         <h1>Home Page Progetto Pissir</h1>
         <h3>Pastorino Marco Matricola: 20013750</h3>
         <br />
-        <a href="/prenotaArmadietto">Prenota un armadietto</a>
+        <a href="/prenotazioneArmadietto.html">Prenota un armadietto</a>
         <br />
         <a href="/user">Vai al tuo profilo</a>
-
+        <br>
+        <button id="button" onclick="prova()">Verifica Login</button><p id="loginh3">Logged as: </p>
     </div>
 
 </body>

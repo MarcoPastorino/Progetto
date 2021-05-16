@@ -4,7 +4,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.eclipse.paho.client.mqttv3.*;
 import java.util.Collections;
 import java.util.Map;
 
@@ -39,8 +39,13 @@ public class Controller {
     }
 
     @GetMapping("/msgToSmartlocker1")
-    public void msgToSmartlocker1() throws org.eclipse.paho.client.mqttv3.MqttException {
-        pub.publishMessage("Prova messaggio");
+    public void msgToSmartlocker1() throws MqttException {
+        pub.publishMessage("Prova messaggio", "SmartLocker1");
+    }
+
+    @GetMapping("/verificaDisp")
+    public String verificaDisp() throws MqttException {
+       return GestionePrenotazioni.getDisp();
     }
 
 

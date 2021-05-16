@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script>
+      function verificaDisp(){
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open( "GET", 'http://localhost:8080/verificaDisp', false );
+            xmlHttp.send( null );
+            console.log(xmlHttp);
+            document.getElementById('statoArm').innerHTML = "Stato Armadietti = " + xmlHttp.responseText;
+<!--        document.getElementById('loginh3').innerHTML = "Utente: " + xmlHttp.responseText;-->
+        }
+
+    </script>
+
+</head>
+<body>
+      <div>
+        <h3>Armadietti</h3>
+        <p id="Arm1">Amadietto1</p>
+        <p id="Arm2">Armadietto2</p>
+        <p id="statoArm"></p>
+        <br>
+        <button onclick="verificaDisp()">Verifica Disponibilità</button>
+      </div>
+</body>
+</html>

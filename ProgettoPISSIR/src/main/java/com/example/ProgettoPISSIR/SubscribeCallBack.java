@@ -15,6 +15,10 @@ public class SubscribeCallBack implements MqttCallback {
         if ("home/LWT".equals(topic)) {
             System.err.println("Sensor gone!");
         }
+        if("SmartLocker1/setStato".equals(topic)){
+            System.out.println("setto stato smartlocker= " + message.toString());
+            SmartLocker1.setStato(message.toString());
+        }
     }
 
     @Override

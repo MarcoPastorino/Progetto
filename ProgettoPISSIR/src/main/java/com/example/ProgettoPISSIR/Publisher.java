@@ -4,7 +4,7 @@ import org.eclipse.paho.client.mqttv3.*;
 
 public class Publisher {
 
-    public static String TOPIC = "SmartLocker1/#";
+    public static String TOPIC = "SmartLocker/#";
     private static MqttConnectOptions options;
 
     private MqttClient client;
@@ -33,8 +33,8 @@ public class Publisher {
 
 
 
-    void publishMessage(String msg) throws MqttException {
-        final MqttTopic messageTopic = client.getTopic("SmartLocker1/"+client.getClientId().toString());
+    void publishMessage(String msg, String topic) throws MqttException {
+        final MqttTopic messageTopic = client.getTopic(topic+"/"+client.getClientId().toString());
         messageTopic.publish(new MqttMessage(msg.getBytes()));
     }
 

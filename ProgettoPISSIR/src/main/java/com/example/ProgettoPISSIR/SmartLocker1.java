@@ -7,7 +7,10 @@ public class SmartLocker1 {
     private static MqttClient client;
     private static MqttConnectOptions options;
     public static String BROKER_URL = "tcp://localhost:1883";
-    private static String clientId = "SmartLock1";
+    private static final String clientId = "SmartLock1";
+
+    private static boolean statoUtilizzo = false;
+    private String codiceSblocco = "";
 
 
 
@@ -50,5 +53,20 @@ public class SmartLocker1 {
         sub.start();
 
     }
+
+    public static boolean getStato(){
+        return statoUtilizzo;
+    }
+
+
+    public static void setStato(String s){
+        if (s.equals("true")){
+            statoUtilizzo = true;
+        } else  {
+            statoUtilizzo = false;
+        }
+
+    }
+
 
 }

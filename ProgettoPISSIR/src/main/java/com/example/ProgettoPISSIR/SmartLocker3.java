@@ -9,6 +9,8 @@ public class SmartLocker3 {
     public static String BROKER_URL = "tcp://localhost:1883";
     private static String clientId = "SmartLock1";
 
+    private static  boolean statoUtilizzo = false;
+    private String codiceSblocco = "";
 
 
     public static void settingClient(String hurl, String clientId){
@@ -49,6 +51,14 @@ public class SmartLocker3 {
         Subscriber sub = new Subscriber(client, "SmartLocker3/#");
         sub.start();
 
+    }
+
+    public static boolean getStato(){
+        return statoUtilizzo;
+    }
+
+    public static void setStato(boolean s){
+        statoUtilizzo = s;
     }
 
 }
