@@ -21,7 +21,7 @@ public class Publisher {
         options.setCleanSession(false);
         options.setWill(client.getTopic("Progetto/LWT"), (client.getClientId().toString()+" si e' disattivato ").getBytes(), 0, false);
 
-        client.setCallback(new SubscribeCallBack());
+        //client.setCallback(new SubscribeCallBack());
 
         try{
             client.connect(options);

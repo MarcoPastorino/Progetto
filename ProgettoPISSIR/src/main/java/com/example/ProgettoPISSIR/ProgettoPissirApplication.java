@@ -12,6 +12,8 @@ public class ProgettoPissirApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProgettoPissirApplication.class, args);
+		SmartLocker1.main(null);
+		SmartLocker3.main(null);
 	}
 
 }
