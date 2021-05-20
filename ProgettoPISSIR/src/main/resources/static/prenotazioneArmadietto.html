@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Prenotazione Armadietto</title>
 
     <script>
       function verificaDisp(){
@@ -10,7 +10,19 @@
             xmlHttp.open( "GET", 'http://localhost:8080/verificaDisp', false );
             xmlHttp.send( null );
             console.log(xmlHttp);
-            document.getElementById('statoArm').innerHTML = "Stato Armadietti = " + xmlHttp.responseText;
+            document.getElementById('prenSL1').style.visibility = "hidden";
+            document.getElementById('prenSL3').style.visibility = "hidden";
+            document.getElementById('statoArm').innerHTML = "";
+            if(xmlHttp.responseText == 'false;true'){
+                document.getElementById('prenSL1').style.visibility = "visible";
+            } else if (xmlHttp.responseText == 'true;false'){
+                document.getElementById('prenSL3').style.visibility = "visible";
+            }else if (xmlHttp.responseText == 'false;false'){
+                document.getElementById('prenSL1').style.visibility = "visible";
+                document.getElementById('prenSL3').style.visibility = "visible";
+            } else{
+                document.getElementById('statoArm').innerHTML = "Nessun armadietto disponibile al momento";
+            }
 <!--        document.getElementById('loginh3').innerHTML = "Utente: " + xmlHttp.responseText;-->
         }
 
@@ -20,8 +32,8 @@
 <body>
       <div>
         <h3>Armadietti</h3>
-        <p id="Arm1">Amadietto1</p>
-        <p id="Arm2">Armadietto2</p>
+        <p id="Arm1">Armadietto1: </p><a id="prenSL1" href="/smartlock1Prenotazione.html" style="visibility:hidden;">Prenota</a>
+        <p id="Arm2">Armadietto3: </p><a id="prenSL3" href="/smartlock3Prenotazione.html" style="visibility:hidden;">Prenota</a>
         <p id="statoArm"></p>
         <br>
         <button onclick="verificaDisp()">Verifica Disponibilità</button>

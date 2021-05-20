@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crea Ordine per Armadietto 1</title>
+
+    <script>
+
+        function creaOrdine(){
+            var userName = new XMLHttpRequest();
+            userName.open( "GET", 'http://localhost:8080/user', false );
+            userName.send( null );
+            console.log(userName);
+            document.getElementById('risultatoCreazioneOrdine').innerHTML = "Ordine di: " + userName.responseText
+            + "\nData: " + document.getElementById('dataOrdine').value
+            + "\nOrdine: " + document.getElementById('ordine').value;
+        }
+
+    </script>
+
+</head>
+<body>
+  <div>
+      <h1>Crea il tuo ordine per lo SmartLock1:</h1>
+      <p>Scegli data e ora della tua prenotazione</p>
+      <input id="dataOrdine" type="datetime-local">
+      <p>Inserisci il tuo ordine:</p>
+      <textarea id="ordine" style="width:250px;height:100px;resize:none"></textarea>
+      <br>
+      <input type="submit" value="Crea Ordine" onclick="creaOrdine()">
+      <p id="risultatoCreazioneOrdine" style="visibility:visible;"></p>
+  </div>
+</body>
+</html>
