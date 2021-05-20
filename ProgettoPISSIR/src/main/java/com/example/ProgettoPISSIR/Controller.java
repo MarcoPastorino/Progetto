@@ -3,6 +3,7 @@ package com.example.ProgettoPISSIR;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.eclipse.paho.client.mqttv3.*;
 import java.util.Collections;
@@ -46,6 +47,16 @@ public class Controller {
     @GetMapping("/verificaDisp")
     public String verificaDisp() throws MqttException {
        return GestionePrenotazioni.getDisp();
+    }
+
+    @GetMapping("/creaPrenotazioneSL1")
+    public String creaPrenotazioneSL1(@RequestParam(value = "ordine", defaultValue = "error") String ordine, @RequestParam(value = "dataOrdine", defaultValue = "error") String dataOrdine, @RequestParam(value = "user", defaultValue = "error") String user) throws MqttException {
+        return "creazionePrenotazioneSL1";
+    }
+
+    @GetMapping("/creaPrenotazioneSL2")
+    public String creaPrenotazioneSL2(@RequestParam(value = "ordine", defaultValue = "error") String ordine, @RequestParam(value = "dataOrdine", defaultValue = "error") String dataOrdine, @RequestParam(value = "user", defaultValue = "error") String user) throws MqttException {
+        return "creazionePrenotazioneSL2";
     }
 
 
