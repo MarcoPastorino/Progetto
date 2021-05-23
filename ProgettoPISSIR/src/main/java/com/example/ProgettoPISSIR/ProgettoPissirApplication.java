@@ -14,6 +14,7 @@ public class ProgettoPissirApplication {
 		SpringApplication.run(ProgettoPissirApplication.class, args);
 		SmartLocker1.main(null);
 		SmartLocker3.main(null);
+		GestionePrenotazioni.main(null);
 	}
 
 }

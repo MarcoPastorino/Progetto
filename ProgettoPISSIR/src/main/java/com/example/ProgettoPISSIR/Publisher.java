@@ -10,9 +10,9 @@ public class Publisher {
     private MqttClient client;
 
 
-    public Publisher (){
+    public Publisher (String id){
         try{
-            client = new MqttClient("tcp://localhost:1883", "MainServer");
+            client = new MqttClient("tcp://localhost:1883", id);
         } catch(MqttException e){
             e.printStackTrace();
             System.exit(1);
@@ -34,7 +34,8 @@ public class Publisher {
 
 
     void publishMessage(String msg, String topic) throws MqttException {
-        final MqttTopic messageTopic = client.getTopic(topic+"/"+client.getClientId().toString());
+        //final MqttTopic messageTopic = client.getTopic(topic+"/"+client.getClientId().toString());
+        final MqttTopic messageTopic = client.getTopic(topic);
         messageTopic.publish(new MqttMessage(msg.getBytes()));
     }
 

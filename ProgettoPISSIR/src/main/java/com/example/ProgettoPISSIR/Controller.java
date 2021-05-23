@@ -12,7 +12,7 @@ import java.util.Map;
 @RestController
 public class Controller {
 
-    static Publisher pub = new Publisher();
+    static Publisher pub = new Publisher("MainServerPub");
 
 //    @GetMapping("/")
 //    public String helloWorld() {
@@ -50,13 +50,18 @@ public class Controller {
     }
 
     @GetMapping("/creaPrenotazioneSL1")
-    public String creaPrenotazioneSL1(@RequestParam(value = "ordine", defaultValue = "error") String ordine, @RequestParam(value = "dataOrdine", defaultValue = "error") String dataOrdine, @RequestParam(value = "user", defaultValue = "error") String user) throws MqttException {
-        return "creazionePrenotazioneSL1";
+    public String creaPrenotazioneSL1(@RequestParam(value = "ordine", defaultValue = "error") String ordine) throws MqttException {
+        if (ordine.equals("error")){
+            return "Qualcosa è andato storto nella crezione dell'ordine";
+        }
+        System.out.println("faccio pub su GestionePrenotazioni/creazioneOrdine1 dal controller");
+        pub.publishMessage(ordine, "GestionePrenotazioni/creazioneOrdine1");
+        return "Ordine creato";
     }
 
     @GetMapping("/creaPrenotazioneSL2")
-    public String creaPrenotazioneSL2(@RequestParam(value = "ordine", defaultValue = "error") String ordine, @RequestParam(value = "dataOrdine", defaultValue = "error") String dataOrdine, @RequestParam(value = "user", defaultValue = "error") String user) throws MqttException {
-        return "creazionePrenotazioneSL2";
+    public String creaPrenotazioneSL2(@RequestParam(value = "ordine", defaultValue = "error") String ordine) throws MqttException {
+        return "creazionePrenotazioneSL2 " + ordine;
     }
 
 

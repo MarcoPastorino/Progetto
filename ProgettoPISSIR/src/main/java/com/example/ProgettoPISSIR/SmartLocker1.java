@@ -22,6 +22,11 @@ class SubscribeCallBackSL1 implements MqttCallback {
             }
             System.out.println("setto stato smartlocker1 = " + SmartLocker1.getStato());
         }
+        if("SmartLocker1/creaOrdine".equals(topic)){
+            SmartLocker1.creaOrdine(message.toString());
+        }
+
+
     }
     @Override
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
@@ -40,6 +45,10 @@ public class SmartLocker1 {
     public static boolean statoUtilizzo = false;
     private String codiceSblocco = "";
 
+    public static String utente = "";
+    public static String dataOrdine = "";
+    public static String ordine = "";
+    public static String nCarta = "";
 
 
     public static void settingClient(String hurl, String clientId){
@@ -95,6 +104,21 @@ public class SmartLocker1 {
         }
 
     }
+
+    public static void creaOrdine(String Ordine){
+        System.out.println("creaOrdine in smartLocker1");
+        String[] parti = Ordine.split("_");
+        utente = parti[0];
+        dataOrdine = parti[1];
+        ordine = parti[2];
+        nCarta = parti[3];
+        statoUtilizzo = true;
+
+        System.out.println("creaOrdine in smartlocker1: " + utente + "  " + dataOrdine+ "  " + ordine+ "  " + nCarta);
+
+    }
+
+
 
 
 }
