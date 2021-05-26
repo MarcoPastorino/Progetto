@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prenotazioni Utente</title>
+
+  <script>
+      function verificaPrenotazioni(){
+            var user = new XMLHttpRequest();
+            user.open( "GET", 'http://localhost:8080/user', false );
+            user.send( null );
+            console.log(user);
+            var infoPren = new XMLHttpRequest();
+            infoPren.open( "GET", 'http://localhost:8080/verificaPrenotazioni?user=' + user.responseText.replace(" ", "+"), false );
+            infoPren.send( null );
+            console.log(infoPren);
+            var pren = infoPren.responseText.split("_")
+            document.getElementById('pPrenotazioni').innerHTML = "Utente: " + pren[0] + "<br>Data: " + pren[1] + "<br>Ordine: " + pren[2] + "<br>Carta: " + pren[3] + "<br>Codice Sblocco: " + pren[4];
+        }
+
+    </script>
+
+
+</head>
+<body>
+      <div>
+          <h3>Prenotazioni</h3>
+          <p id="pPrenotazioni"></p>
+          <br>
+          <button onclick="verificaPrenotazioni()">Visualizza Prenotazioni</button>
+          <a href="/index.html">Home</a>
+      </div>
+</body>
+</html>

@@ -64,5 +64,15 @@ public class Controller {
         return "creazionePrenotazioneSL2 " + ordine;
     }
 
+    @GetMapping("/verificaPrenotazioni")
+    public String verificaPrenotazioniUtente(@RequestParam(value = "user", defaultValue = "error") String user) throws MqttException {
+        if (user.equals("error")){
+            return "Qualcosa è andato storto nella ricerca delle tue prenotazioni";
+        }
+        System.out.println("Controller: " + user);
+        String datiPrenotazione = GestionePrenotazioni.getDatiPrenotazione(user);
+        return datiPrenotazione;
+    }
+
 
 }

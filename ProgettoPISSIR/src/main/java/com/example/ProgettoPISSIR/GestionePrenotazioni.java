@@ -2,6 +2,10 @@ package com.example.ProgettoPISSIR;
 
 import org.eclipse.paho.client.mqttv3.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 class SubscribeCallBackGestionePrenotazioni implements MqttCallback {
 
@@ -20,6 +24,9 @@ class SubscribeCallBackGestionePrenotazioni implements MqttCallback {
         }
         if("GestionePrenotazioni/creazioneOrdine3".equals(topic)){
         }
+        if("GestionePrenotazioni/addPrenotazione".equals(topic)){
+            GestionePrenotazioni.addPrenotazione(message.toString());
+        }
     }
     @Override
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
@@ -35,6 +42,8 @@ public class GestionePrenotazioni {
     private static MqttConnectOptions options;
     public static String BROKER_URL = "tcp://localhost:1883";
     private static final String clientId = "GestionePrenotazioni";
+
+    public static String prenotazioni = "";
 
 
     public static void settingClient(String hurl, String clientId){
@@ -72,14 +81,34 @@ public class GestionePrenotazioni {
         return SmartLocker1.getStato() + ";" + SmartLocker3.getStato();
     }
 
+    public static void addPrenotazione(String pren){
+        prenotazioni = prenotazioni + pren + "&";
+    }
 
     public static void creaOrdine1(String ordine) throws MqttException {
+        System.out.println("Gestione Prenotazione: creaOrdine1 in gestione Prenotazione...");
+        //prenotazioni = prenotazioni + ordine + "&";
+        //System.out.println("aggiunto alla lista delle prenotazioni: " + prenotazioni);
         pub.publishMessage(ordine, "SmartLocker1/creaOrdine");
-        System.out.println("creaOrdine1 in gestione Prenotazione...");
     }
 
     public static void creaOrdine3(String ordine){
 
+    }
+
+
+    public static String getDatiPrenotazione(String user){
+        String info = "";
+        if (!prenotazioni.equals("")){
+            for (String p: prenotazioni.split("&")) {
+                if (p.contains(user)){
+                    info = info + p;
+                }
+            }
+        } else{
+            return "Errore nel recuperare dati prenotazione";
+        }
+        return info;
     }
 
 

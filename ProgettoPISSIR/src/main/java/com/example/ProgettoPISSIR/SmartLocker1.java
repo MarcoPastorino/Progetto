@@ -2,6 +2,8 @@ package com.example.ProgettoPISSIR;
 
 import org.eclipse.paho.client.mqttv3.*;
 
+import java.util.UUID;
+
 
 class SubscribeCallBackSL1 implements MqttCallback {
     @Override
@@ -43,13 +45,14 @@ public class SmartLocker1 {
     private static final String clientId = "SmartLock1";
 
     public static boolean statoUtilizzo = false;
-    private String codiceSblocco = "";
+    public static String codiceSblocco = "";
 
     public static String utente = "";
     public static String dataOrdine = "";
     public static String ordine = "";
     public static String nCarta = "";
 
+    static Publisher pub = new Publisher("SmartLocker1Pub");
 
     public static void settingClient(String hurl, String clientId){
         try{
@@ -105,7 +108,7 @@ public class SmartLocker1 {
 
     }
 
-    public static void creaOrdine(String Ordine){
+    public static void creaOrdine(String Ordine) throws MqttException {
         System.out.println("creaOrdine in smartLocker1");
         String[] parti = Ordine.split("_");
         utente = parti[0];
@@ -113,8 +116,9 @@ public class SmartLocker1 {
         ordine = parti[2];
         nCarta = parti[3];
         statoUtilizzo = true;
-
-        System.out.println("creaOrdine in smartlocker1: " + utente + "  " + dataOrdine+ "  " + ordine+ "  " + nCarta);
+        codiceSblocco = UUID.randomUUID().toString();
+        System.out.println("creaOrdine in smartlocker1: " + utente + "  " + dataOrdine+ "  " + ordine+ "  " + nCarta + " " + codiceSblocco);
+        pub.publishMessage(Ordine+"_"+codiceSblocco, "GestionePrenotazioni/addPrenotazione");
 
     }
 
