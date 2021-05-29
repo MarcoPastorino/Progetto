@@ -27,6 +27,10 @@ class SubscribeCallBackGestionePrenotazioni implements MqttCallback {
         if("GestionePrenotazioni/addPrenotazione".equals(topic)){
             GestionePrenotazioni.addPrenotazione(message.toString());
         }
+        if("GestionePrenotazioni/deleteOrderSL1".equals(topic)){
+            GestionePrenotazioni.deleteOrderSL1();
+        }
+
     }
     @Override
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
@@ -87,13 +91,29 @@ public class GestionePrenotazioni {
 
     public static void creaOrdine1(String ordine) throws MqttException {
         System.out.println("Gestione Prenotazione: creaOrdine1 in gestione Prenotazione...");
-        //prenotazioni = prenotazioni + ordine + "&";
-        //System.out.println("aggiunto alla lista delle prenotazioni: " + prenotazioni);
         pub.publishMessage(ordine, "SmartLocker1/creaOrdine");
     }
 
     public static void creaOrdine3(String ordine){
 
+    }
+
+    public static boolean getInConferma1(){
+        return SmartLocker1.getInConferma();
+    }
+
+
+    public static void deleteOrderSL1() throws MqttException {
+        pub.publishMessage("deleteOrder", "SmartLocker1/deleteOrder");
+        String prenTemp = "";
+        for (String p: prenotazioni.split("&")) {
+            if (p.contains("SmartLocker1")){
+
+            } else{
+                prenTemp = prenTemp + "&";
+            }
+        }
+        prenotazioni = prenTemp;
     }
 
 
@@ -106,7 +126,7 @@ public class GestionePrenotazioni {
                 }
             }
         } else{
-            return "Errore nel recuperare dati prenotazione";
+            return "Non ci sono prenotazioni";
         }
         return info;
     }

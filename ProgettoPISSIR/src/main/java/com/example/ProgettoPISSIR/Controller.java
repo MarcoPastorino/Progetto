@@ -74,5 +74,28 @@ public class Controller {
         return datiPrenotazione;
     }
 
+    @GetMapping("/verificaInConferma")
+    public String verificaInConferma1(@RequestParam(value = "user", defaultValue = "error") String user, @RequestParam (value = "locker", defaultValue = "error") String locker){
+        if (user.equals("error")){
+            return "Qualcosa è andato storto con la verifca";
+        }
+        if (locker.equals("SmartLocker1")){
+            Boolean res = GestionePrenotazioni.getInConferma1();
+            return res.toString();
+        } else if (user.equals("SmartLocker3")){
+//            Boolean res = GestionePrenotazioni.getInConferma3();
+//            return res.toString();
+            return "--";
+        }
+        return "error";
+    }
+
+
+    @GetMapping("/deleteOrdineSmartLocker1")
+    public String deleteOrdineSL1() throws MqttException {
+        pub.publishMessage("deleteOrderSL1", "GestionePrenotazioni/deleteOrderSL1");
+        return "Ordine Eliminato<br><a href=\"/index.html\">Home</a>";
+    }
+
 
 }

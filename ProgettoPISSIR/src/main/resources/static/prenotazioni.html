@@ -15,8 +15,26 @@
             infoPren.send( null );
             console.log(infoPren);
             var pren = infoPren.responseText.split("_")
-            document.getElementById('pPrenotazioni').innerHTML = "Utente: " + pren[0] + "<br>Data: " + pren[1] + "<br>Ordine: " + pren[2] + "<br>Carta: " + pren[3] + "<br>Codice Sblocco: " + pren[4];
+            document.getElementById('pPrenotazioni').innerHTML = "Utente: " + pren[0] + "<br>Data: " + pren[1] + "<br>Ordine: " + pren[2] + "<br>Carta: " + pren[3] + "<br>Codice Sblocco: " + pren[4] + "<br>" + pren[5];
+            if(pren[5] == ''){
+
+            } else {
+                var inConferma = new XMLHttpRequest();
+                inConferma.open("GET", 'http://localhost:8080/verificaInConferma?user='+user.responseText.replace(" ", "+")+'&locker='+pren[5], false );
+                inConferma.send(null);
+                console.log(inConferma);
+                if(inConferma.responseText == 'true'){
+                    document.getElementById('pPrenotazioni').innerHTML = document.getElementById('pPrenotazioni').innerHTML + '<br><a href="/deleteOrdine'+ pren[5] +'">Ordine ancora in conferma, possibile cancellazione</a>'
+                }
+            }
+
+            if(pren[0] == 'Non ci sono prenotazioni'){
+                document.getElementById('pPrenotazioni').innerHTML = "Non ci sono tue prenotazioni"
+            }
+
         }
+
+
 
     </script>
 

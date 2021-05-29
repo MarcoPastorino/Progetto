@@ -20,7 +20,7 @@
             var nCarta = document.getElementById('numeroCarta').value;
 
             var esitoOrdine = new XMLHttpRequest();
-            var indirizzo = 'http://localhost:8080/creaPrenotazioneSL1?ordine='+ user + '_' + data + '_' + ordine + '_' + nCarta;
+            var indirizzo = 'http://localhost:8080/creaPrenotazioneSL1?ordine=' + user + '_' + data + '_' + ordine + '_' + nCarta;
             indirizzo.replace(" ", "+");
             esitoOrdine.open( "GET", indirizzo, false );
             esitoOrdine.send( null );

@@ -27,6 +27,12 @@ class SubscribeCallBackSL1 implements MqttCallback {
         if("SmartLocker1/creaOrdine".equals(topic)){
             SmartLocker1.creaOrdine(message.toString());
         }
+        if ("SmartLocker1/setInConferma".equals(topic)){
+            SmartLocker1.setInConferma(message.toString());
+        }
+        if("SmartLocker1/deleteOrder".equals(topic)){
+            SmartLocker1.deleteOrder();
+        }
 
 
     }
@@ -45,6 +51,7 @@ public class SmartLocker1 {
     private static final String clientId = "SmartLock1";
 
     public static boolean statoUtilizzo = false;
+    public static boolean inConferma = true;
     public static String codiceSblocco = "";
 
     public static String utente = "";
@@ -99,6 +106,18 @@ public class SmartLocker1 {
     }
 
 
+    public static void setInConferma(String s){
+        if (s.equals("true")){
+            inConferma = true;
+        } else if (s.equals("false")){
+            inConferma = false;
+        }
+    }
+
+    public static boolean getInConferma(){
+        return inConferma;
+    }
+
     public static void setStato(String s){
         if (s.equals("true")){
             statoUtilizzo = true;
@@ -108,20 +127,32 @@ public class SmartLocker1 {
 
     }
 
+
     public static void creaOrdine(String Ordine) throws MqttException {
-        System.out.println("creaOrdine in smartLocker1");
-        String[] parti = Ordine.split("_");
-        utente = parti[0];
-        dataOrdine = parti[1];
-        ordine = parti[2];
-        nCarta = parti[3];
-        statoUtilizzo = true;
-        codiceSblocco = UUID.randomUUID().toString();
-        System.out.println("creaOrdine in smartlocker1: " + utente + "  " + dataOrdine+ "  " + ordine+ "  " + nCarta + " " + codiceSblocco);
-        pub.publishMessage(Ordine+"_"+codiceSblocco, "GestionePrenotazioni/addPrenotazione");
+        if (statoUtilizzo == false){
+            System.out.println("creaOrdine in smartLocker1");
+            String[] parti = Ordine.split("_");
+            utente = parti[0];
+            dataOrdine = parti[1];
+            ordine = parti[2];
+            nCarta = parti[3];
+            statoUtilizzo = true;
+            codiceSblocco = UUID.randomUUID().toString();
+            System.out.println("creaOrdine in smartlocker1: " + utente + "  " + dataOrdine+ "  " + ordine+ "  " + nCarta + " " + codiceSblocco);
+            pub.publishMessage(Ordine+"_"+codiceSblocco+"_SmartLocker1", "GestionePrenotazioni/addPrenotazione");
+        }
 
     }
 
+
+    public static void deleteOrder(){
+        utente = "";
+        dataOrdine = "";
+        ordine = "";
+        nCarta = "";
+        statoUtilizzo = false;
+        codiceSblocco = "";
+    }
 
 
 
