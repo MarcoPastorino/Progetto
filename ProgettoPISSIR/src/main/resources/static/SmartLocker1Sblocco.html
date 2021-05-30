@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pannello per Sblocco SmartLocker1</title>
+
+    <script>
+        function verificaCodiceSblocco(){
+            var codice = document.getElementById('codice').value;
+            var res = new XMLHttpRequest();
+            res.open( "GET", 'http://localhost:8080/sbloccoSmartLocker1?codice=' + codice, false );
+            res.send( null );
+            console.log(res);
+            if(res.responseText == "Codice Errato"){
+                document.getElementById('risultatoSbloccoArmadietto').innerHTML = res.responseText;
+                document.getElementById('risultatoSbloccoArmadietto').style.background = "red";
+            }else if (res.responseText == "errore nell'invio del codice"){
+                document.getElementById('risultatoSbloccoArmadietto').innerHTML = res.responseText;
+                document.getElementById('risultatoSbloccoArmadietto').style.background = "red";
+            }else if(res.responseText == "Codice Corretto, preleva il tuo ordine"){
+                document.getElementById('risultatoSbloccoArmadietto').innerHTML = res.responseText;
+                document.getElementById('risultatoSbloccoArmadietto').style.background = "green";
+            }
+        }
+    </script>
+
+</head>
+<body>
+
+    <div>
+        <h3>Inserire il codice di sblocco dell'armadietto 1</h3>
+        <input id="codice" type="text" style="width:250px;">
+        <input type="submit" value="Sblocca Armadietto" onclick="verificaCodiceSblocco()">
+        <p id="risultatoSbloccoArmadietto" style="visibility:visible;width:395px;text-align:center;"></p>
+    </div>
+
+</body>
+</html>

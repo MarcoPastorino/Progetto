@@ -11,7 +11,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .antMatcher("/**").authorizeRequests()
-                .antMatchers(new String[]{"/", "/not-restricted"}).permitAll()
+                .antMatchers(new String[]{"/", "/not-restricted", "/index.html" ,"/SmartLocker1Sblocco.html", "/sbloccoSmartLocker1", "/SmartLocker3Sblocco.html","/sbloccoSmartLocker3"}).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login();

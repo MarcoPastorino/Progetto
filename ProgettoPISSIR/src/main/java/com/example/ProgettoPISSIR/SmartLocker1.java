@@ -151,6 +151,7 @@ public class SmartLocker1 {
         ordine = "";
         nCarta = "";
         statoUtilizzo = false;
+        inConferma = true;
         codiceSblocco = "";
     }
 

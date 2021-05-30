@@ -59,9 +59,14 @@ public class Controller {
         return "Ordine creato";
     }
 
-    @GetMapping("/creaPrenotazioneSL2")
-    public String creaPrenotazioneSL2(@RequestParam(value = "ordine", defaultValue = "error") String ordine) throws MqttException {
-        return "creazionePrenotazioneSL2 " + ordine;
+    @GetMapping("/creaPrenotazioneSL3")
+    public String creaPrenotazioneSL3(@RequestParam(value = "ordine", defaultValue = "error") String ordine) throws MqttException {
+        if (ordine.equals("error")){
+            return "Qualcosa è andato storto nella crezione dell'ordine";
+        }
+        System.out.println("faccio pub su GestionePrenotazioni/creazioneOrdine3 dal controller");
+        pub.publishMessage(ordine, "GestionePrenotazioni/creazioneOrdine3");
+        return "Ordine creato";
     }
 
     @GetMapping("/verificaPrenotazioni")
@@ -82,20 +87,54 @@ public class Controller {
         if (locker.equals("SmartLocker1")){
             Boolean res = GestionePrenotazioni.getInConferma1();
             return res.toString();
-        } else if (user.equals("SmartLocker3")){
-//            Boolean res = GestionePrenotazioni.getInConferma3();
-//            return res.toString();
-            return "--";
+        } else if (locker.equals("SmartLocker3")){
+            Boolean res = GestionePrenotazioni.getInConferma3();
+            return res.toString();
         }
         return "error";
     }
-
 
     @GetMapping("/deleteOrdineSmartLocker1")
     public String deleteOrdineSL1() throws MqttException {
         pub.publishMessage("deleteOrderSL1", "GestionePrenotazioni/deleteOrderSL1");
         return "Ordine Eliminato<br><a href=\"/index.html\">Home</a>";
     }
+
+    @GetMapping("/deleteOrdineSmartLocker3")
+    public String deleteOrdineSL3() throws MqttException {
+        pub.publishMessage("deleteOrderSL3", "GestionePrenotazioni/deleteOrderSL3");
+        return "Ordine Eliminato<br><a href=\"/index.html\">Home</a>";
+    }
+
+    @GetMapping("/sbloccoSmartLocker1")
+    public String sbloccoSmartLocker1(@RequestParam(value = "codice", defaultValue = "error") String codice) throws MqttException {
+        if (!codice.equals("error")){
+            if (SmartLocker1.codiceSblocco.equals(codice)){
+                pub.publishMessage("delete", "GestionePrenotazioni/deleteOrderSL1");
+                return "Codice Corretto, preleva il tuo ordine";
+            } else{
+                return "Codice Errato";
+            }
+        } else{
+            return "errore nell'invio del codice";
+        }
+    }
+
+    @GetMapping("/sbloccoSmartLocker3")
+    public String sbloccoSmartLocker3(@RequestParam(value = "codice", defaultValue = "error") String codice) throws MqttException {
+        if (!codice.equals("error")){
+            if (SmartLocker3.codiceSblocco.equals(codice)){
+                pub.publishMessage("delete", "GestionePrenotazioni/deleteOrderSL3");
+                return "Codice Corretto, preleva il tuo ordine";
+            } else{
+                return "Codice Errato";
+            }
+        } else{
+            return "errore nell'invio del codice";
+        }
+    }
+
+
 
 
 }

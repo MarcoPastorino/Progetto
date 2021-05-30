@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-  <title>Crea Ordine per Armadietto 3</title>
+  <meta charset="UTF-8">
+  <title>Crea Ordine per Armadietto 1</title>
 
   <script>
 
@@ -11,24 +11,45 @@
             userName.open( "GET", 'http://localhost:8080/user', false );
             userName.send( null );
             console.log(userName);
-            document.getElementById('risultatoCreazioneOrdine').innerHTML = "Ordine di: " + userName.responseText
+            //document.getElementById('risultatoCreazioneOrdine').innerHTML = "Ordine di: " + userName.responseText
             + "\nData: " + document.getElementById('dataOrdine').value
             + "\nOrdine: " + document.getElementById('ordine').value;
+            var user = userName.responseText;
+            var data = document.getElementById('dataOrdine').value;
+            var ordine = document.getElementById('ordine').value;
+            var nCarta = document.getElementById('numeroCarta').value;
+
+            var esitoOrdine = new XMLHttpRequest();
+            var indirizzo = 'http://localhost:8080/creaPrenotazioneSL3?ordine=' + user + '_' + data + '_' + ordine + '_' + nCarta;
+            indirizzo.replace(" ", "+");
+            esitoOrdine.open( "GET", indirizzo, false );
+            esitoOrdine.send( null );
+            console.log(esitoOrdine);
+            document.getElementById('risultatoCreazioneOrdine').innerHTML = esitoOrdine.responseText;
+
+            if(esitoOrdine.responseText == "Ordine creato"){
+                window.location.href = "/index.html";
+            }
+
         }
 
     </script>
 
 </head>
 <body>
-  <div>
-    <h1>Crea il tuo ordine per lo SmartLock3:</h1>
-    <p>Scegli data e ora della tua prenotazione</p>
-    <input id="dataOrdine" type="datetime-local">
-    <p>Inserisci il tuo ordine:</p>
-    <textarea id="ordine" style="width:250px;height:100px;resize:none"></textarea>
-    <br>
-    <input type="submit" value="Crea Ordine" onclick="creaOrdine()">
-    <p id="risultatoCreazioneOrdine" style="visibility:visible;"></p>
-  </div>
+<div>
+  <h1>Crea il tuo ordine per lo SmartLock3:</h1>
+  <p>Scegli data e ora della tua prenotazione</p>
+  <input id="dataOrdine" type="datetime-local">
+  <p>Inserisci il tuo ordine:</p>
+  <textarea id="ordine" style="width:250px;height:100px;resize:none"></textarea>
+  <p>Numero Carta</p>
+  <input id="numeroCarta" type="text">
+  <br>
+  <br>
+  <input type="submit" value="Crea Ordine" onclick="creaOrdine()">
+  <p id="risultatoCreazioneOrdine" style="visibility:visible;"></p>
+  <a href="/index.html">Home</a>
+</div>
 </body>
 </html>

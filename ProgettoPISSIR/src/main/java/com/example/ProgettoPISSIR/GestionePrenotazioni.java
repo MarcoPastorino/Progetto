@@ -23,12 +23,16 @@ class SubscribeCallBackGestionePrenotazioni implements MqttCallback {
             GestionePrenotazioni.creaOrdine1(message.toString());
         }
         if("GestionePrenotazioni/creazioneOrdine3".equals(topic)){
+            GestionePrenotazioni.creaOrdine3(message.toString());
         }
         if("GestionePrenotazioni/addPrenotazione".equals(topic)){
             GestionePrenotazioni.addPrenotazione(message.toString());
         }
         if("GestionePrenotazioni/deleteOrderSL1".equals(topic)){
             GestionePrenotazioni.deleteOrderSL1();
+        }
+        if("GestionePrenotazioni/deleteOrderSL3".equals(topic)){
+            GestionePrenotazioni.deleteOrderSL3();
         }
 
     }
@@ -94,20 +98,37 @@ public class GestionePrenotazioni {
         pub.publishMessage(ordine, "SmartLocker1/creaOrdine");
     }
 
-    public static void creaOrdine3(String ordine){
-
+    public static void creaOrdine3(String ordine) throws MqttException {
+        System.out.println("Gestione Prenotazione: creaOrdine3 in gestione Prenotazione...");
+        pub.publishMessage(ordine, "SmartLocker3/creaOrdine");
     }
 
     public static boolean getInConferma1(){
         return SmartLocker1.getInConferma();
     }
 
+    public static boolean getInConferma3(){
+        return SmartLocker3.getInConferma();
+    }
 
     public static void deleteOrderSL1() throws MqttException {
         pub.publishMessage("deleteOrder", "SmartLocker1/deleteOrder");
         String prenTemp = "";
         for (String p: prenotazioni.split("&")) {
             if (p.contains("SmartLocker1")){
+
+            } else{
+                prenTemp = prenTemp + "&";
+            }
+        }
+        prenotazioni = prenTemp;
+    }
+
+    public static void deleteOrderSL3() throws MqttException {
+        pub.publishMessage("deleteOrder", "SmartLocker3/deleteOrder");
+        String prenTemp = "";
+        for (String p: prenotazioni.split("&")) {
+            if (p.contains("SmartLocker3")){
 
             } else{
                 prenTemp = prenTemp + "&";

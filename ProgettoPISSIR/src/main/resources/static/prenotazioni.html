@@ -14,6 +14,7 @@
             infoPren.open( "GET", 'http://localhost:8080/verificaPrenotazioni?user=' + user.responseText.replace(" ", "+"), false );
             infoPren.send( null );
             console.log(infoPren);
+
             var pren = infoPren.responseText.split("_")
             document.getElementById('pPrenotazioni').innerHTML = "Utente: " + pren[0] + "<br>Data: " + pren[1] + "<br>Ordine: " + pren[2] + "<br>Carta: " + pren[3] + "<br>Codice Sblocco: " + pren[4] + "<br>" + pren[5];
             if(pren[5] == ''){
