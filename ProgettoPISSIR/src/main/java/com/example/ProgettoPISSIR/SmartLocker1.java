@@ -144,8 +144,7 @@ public class SmartLocker1 {
 
     }
 
-
-    public static void deleteOrder(){
+    public static void deleteOrder() throws MqttException {
         utente = "";
         dataOrdine = "";
         ordine = "";
@@ -153,7 +152,9 @@ public class SmartLocker1 {
         statoUtilizzo = false;
         inConferma = true;
         codiceSblocco = "";
+        pub.publishMessage("del", "GestionePrenotazioni/deleteOrderSL1");
     }
+
 
 
 

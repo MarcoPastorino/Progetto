@@ -34,6 +34,12 @@ class SubscribeCallBackGestionePrenotazioni implements MqttCallback {
         if("GestionePrenotazioni/deleteOrderSL3".equals(topic)){
             GestionePrenotazioni.deleteOrderSL3();
         }
+        if("GestionePrenotazioni/setInConferma1".equals(topic)){
+            GestionePrenotazioni.setInConferma1(message.toString());
+        }
+        if("GestionePrenotazioni/setInConferma3".equals(topic)){
+            GestionePrenotazioni.setInConferma3(message.toString());
+        }
 
     }
     @Override
@@ -53,6 +59,10 @@ public class GestionePrenotazioni {
 
     public static String prenotazioni = "";
 
+    public static boolean statoPrenSL1 = false;
+    public static boolean statoPrenSL3 = false;
+    public static boolean inConfermaSL1 = true;
+    public static boolean inConfermaSL3 = true;
 
     public static void settingClient(String hurl, String clientId){
         try{
@@ -86,7 +96,7 @@ public class GestionePrenotazioni {
 
 
     public static String getDisp(){
-        return SmartLocker1.getStato() + ";" + SmartLocker3.getStato();
+        return GestionePrenotazioni.statoPrenSL1 + ";" + GestionePrenotazioni.statoPrenSL3;
     }
 
     public static void addPrenotazione(String pren){
@@ -95,24 +105,44 @@ public class GestionePrenotazioni {
 
     public static void creaOrdine1(String ordine) throws MqttException {
         System.out.println("Gestione Prenotazione: creaOrdine1 in gestione Prenotazione...");
+        statoPrenSL1= true;
         pub.publishMessage(ordine, "SmartLocker1/creaOrdine");
     }
 
     public static void creaOrdine3(String ordine) throws MqttException {
         System.out.println("Gestione Prenotazione: creaOrdine3 in gestione Prenotazione...");
+        statoPrenSL3 = true;
         pub.publishMessage(ordine, "SmartLocker3/creaOrdine");
     }
 
     public static boolean getInConferma1(){
-        return SmartLocker1.getInConferma();
+        return inConfermaSL1;
+    }
+
+    public static void setInConferma1(String s){
+        if (s.equals("true")){
+            inConfermaSL1 = true;
+        } else if (s.equals("false")){
+            inConfermaSL1 = false;
+        }
     }
 
     public static boolean getInConferma3(){
-        return SmartLocker3.getInConferma();
+        return inConfermaSL3;
+    }
+
+    public static void setInConferma3(String s){
+        if (s.equals("true")){
+            inConfermaSL3 = true;
+        } else if (s.equals("false")){
+            inConfermaSL3 = false;
+        }
     }
 
     public static void deleteOrderSL1() throws MqttException {
-        pub.publishMessage("deleteOrder", "SmartLocker1/deleteOrder");
+        //pub.publishMessage("deleteOrder", "SmartLocker1/deleteOrder");
+        statoPrenSL1 = false;
+        inConfermaSL1 = true;
         String prenTemp = "";
         for (String p: prenotazioni.split("&")) {
             if (p.contains("SmartLocker1")){
@@ -125,7 +155,9 @@ public class GestionePrenotazioni {
     }
 
     public static void deleteOrderSL3() throws MqttException {
-        pub.publishMessage("deleteOrder", "SmartLocker3/deleteOrder");
+        //pub.publishMessage("deleteOrder", "SmartLocker3/deleteOrder");
+        statoPrenSL3 = false;
+        inConfermaSL3 = true;
         String prenTemp = "";
         for (String p: prenotazioni.split("&")) {
             if (p.contains("SmartLocker3")){
