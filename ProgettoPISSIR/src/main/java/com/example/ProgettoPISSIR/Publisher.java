@@ -10,7 +10,7 @@ public class Publisher {
     private MqttClient client;
 
 
-    public Publisher (String id){
+    public Publisher (String id, String utente, String password){
         try{
             client = new MqttClient("tcp://localhost:1883", id);
         } catch(MqttException e){
@@ -20,7 +20,8 @@ public class Publisher {
         options = new MqttConnectOptions();
         options.setCleanSession(false);
         options.setWill(client.getTopic("Progetto/LWT"), (client.getClientId().toString()+" si e' disattivato ").getBytes(), 0, false);
-
+        options.setUserName(utente);
+        options.setPassword(password.toCharArray());
         //client.setCallback(new SubscribeCallBack());
 
         try{

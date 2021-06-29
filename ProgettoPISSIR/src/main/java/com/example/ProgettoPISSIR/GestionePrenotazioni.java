@@ -50,7 +50,7 @@ class SubscribeCallBackGestionePrenotazioni implements MqttCallback {
 
 public class GestionePrenotazioni {
 
-    static Publisher pub = new Publisher("GestionePrenotazioniPub");
+    static Publisher pub = new Publisher("GestionePrenotazioniPub", "gestioneprenotazioni", "gestioneprenotazioni");
 
     private static MqttClient client;
     private static MqttConnectOptions options;
@@ -74,7 +74,8 @@ public class GestionePrenotazioni {
         options = new MqttConnectOptions();
         options.setCleanSession(false);
         options.setWill(client.getTopic("Progetto/LWT"), (client.getClientId().toString()+" si e' disattivato ").getBytes(), 0, false);
-
+        options.setUserName("gestioneprenotazioni");
+        options.setPassword("gestioneprenotazioni".toCharArray());
         client.setCallback(new SubscribeCallBackGestionePrenotazioni());
 
         try{

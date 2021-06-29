@@ -12,7 +12,7 @@ import java.util.Map;
 @RestController
 public class Controller {
 
-    static Publisher pub = new Publisher("MainServerPub");
+    static Publisher pub = new Publisher("MainServerPub", "controller", "controller");
 
 //    @GetMapping("/")
 //    public String helloWorld() {

@@ -57,7 +57,7 @@ public class SmartLocker3 {
     public static String ordine = "";
     public static String nCarta = "";
 
-    static Publisher pub = new Publisher("SmartLocker3Pub");
+    static Publisher pub = new Publisher("SmartLocker3Pub", "smartlocker3","smartlocker3");
 
     public static void settingClient(String hurl, String clientId){
         try{
@@ -69,7 +69,8 @@ public class SmartLocker3 {
         options = new MqttConnectOptions();
         options.setCleanSession(false);
         options.setWill(client.getTopic("Progetto/LWT"), (client.getClientId().toString()+" si e' disattivato ").getBytes(), 0, false);
-
+        options.setUserName("smartlocker3");
+        options.setPassword("smartlocker3".toCharArray());
         client.setCallback(new SubscribeCallBackSL3());
 
         try{
