@@ -96,13 +96,13 @@ public class Controller {
 
     @GetMapping("/deleteOrdineSmartLocker1")
     public String deleteOrdineSL1() throws MqttException {
-        pub.publishMessage("deleteOrderSL1", "GestionePrenotazioni/deleteOrderSL1");
+        pub.publishMessage("deleteOrderSL1", "SmartLocker1/deleteOrder");
         return "Ordine Eliminato<br><a href=\"/index.html\">Home</a>";
     }
 
     @GetMapping("/deleteOrdineSmartLocker3")
     public String deleteOrdineSL3() throws MqttException {
-        pub.publishMessage("deleteOrderSL3", "GestionePrenotazioni/deleteOrderSL3");
+        pub.publishMessage("deleteOrderSL3", "SmartLocker3/deleteOrder");
         return "Ordine Eliminato<br><a href=\"/index.html\">Home</a>";
     }
 
