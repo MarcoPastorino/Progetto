@@ -42,7 +42,6 @@ class SubscribeCallBackSL1 implements MqttCallback {
 }
 
 
-
 public class SmartLocker1 {
 
     private static MqttClient client;
@@ -155,6 +154,7 @@ public class SmartLocker1 {
         codiceSblocco = "";
         pub.publishMessage("del", "GestionePrenotazioni/deleteOrderSL1");
     }
+
 
 
 
